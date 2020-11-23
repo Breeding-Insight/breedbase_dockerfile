@@ -118,6 +118,8 @@ RUN apt-get install libpq-dev -y
 #
 RUN apt-get install libmoosex-runnable-perl -y
 
+RUN apt-get install libhash-case-perl -y
+
 RUN apt-get install libgdbm3 libgdm-dev -y
 RUN apt-get install nodejs -y
 
