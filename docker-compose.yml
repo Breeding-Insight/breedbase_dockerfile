@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   breedbase:
-    image: breedbase/breedbase:v0.17
+    image: breedinginsight/breedbase:latest
     depends_on:
       - breedbase_db
     container_name: breedbase_web
@@ -35,7 +35,7 @@ services:
         source: ${HOME}/images
         target: /home/production/images
   breedbase-dev:
-    image: breedbase_image:latest
+    image: breedinginsight/breedbase:latest
     depends_on:
       - breedbase_db
     container_name: breedbase_web
@@ -70,10 +70,10 @@ services:
       - type: bind
         source: ${HOME}/images
         target: /home/production/images
-    #environment:
-    #  - MODE=DEVELOPMENT
+    environment:
+      - MODE=DEVELOPMENT
   breedbase_db:
-    image: breedbase_pg #breedbase_pg12.4:v0.5
+    image: breedinginsight/breedbase_pg:latest #breedbase_pg12.4:v0.5
     container_name: breedbase_db
     ports:
       - 5431:5432
