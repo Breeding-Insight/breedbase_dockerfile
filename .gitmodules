@@ -3,7 +3,7 @@
 	url = https://github.com/solgenomics/cxgn-corelibs.git
 [submodule "repos/sgn"]
 	path = repos/sgn
-	url = https://github.com/solgenomics/sgn.git
+	url = https://github.com/Breeding-Insight/sgn.git
 [submodule "repos/Phenome"]
 	path = repos/Phenome
 	url = https://github.com/solgenomics/Phenome.git
