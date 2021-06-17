@@ -48,8 +48,8 @@ RUN bash -c "apt-key adv --keyserver keys.gnupg.net --recv-key 'E19F5F87128899B1
 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc |  apt-key add -
 
-#RUN apt-get update --fix-missing -y
-RUN apt-get update -y
+RUN apt-get update --fix-missing -y
+#RUN apt-get update -y
 
 RUN apt-get install -y aptitude
 RUN aptitude install -y libterm-readline-zoid-perl nginx starman emacs gedit vim less sudo htop git dkms linux-headers-4.9.0-14-amd64 perl-doc ack-grep make xutils-dev nfs-common lynx xvfb ncbi-blast+ libmunge-dev libmunge2 munge slurm-wlm slurmctld slurmd libslurm-perl libssl-dev graphviz lsof imagemagick mrbayes muscle bowtie bowtie2 blast2 postfix mailutils libcupsimage2 postgresql-client-12 libglib2.0-dev libglib2.0-bin screen apt-transport-https libgdal-dev libproj-dev libudunits2-dev locales locales-all rsyslog cron
@@ -86,7 +86,7 @@ ADD repos /home/production/cxgn
 
 COPY slurm.conf /etc/slurm-llnl/slurm.conf
 
-COPY sgn_local.conf.template /home/production/cxgn/sgn/sgn_local.conf
+COPY sgn_local.conf /home/production/cxgn/sgn/sgn_local.conf
 COPY starmachine.conf /etc/starmachine/
 COPY slurm.conf /etc/slurm-llnl/slurm.conf
 
