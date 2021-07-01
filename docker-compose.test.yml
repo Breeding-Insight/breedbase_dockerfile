@@ -1,6 +1,6 @@
 services:
   test_breedbase:
-    image: breedbase/breedbase:latest
+    image: breedbase/breedbase:v0.26
     environment:
       HOME: /root
       MODE: 'TESTING'
