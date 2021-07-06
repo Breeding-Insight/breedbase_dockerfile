@@ -8,7 +8,7 @@ sed -i s/localhost/$HOSTNAME/g /etc/slurm-llnl/slurm.conf
 #/etc/init.d/postgres start
 
 if [ "${MODE}" = 'TESTING' ]; then
-    exec perl t/test_fixture.pl -v ${TEST_DETAILS}
+    exec perl t/test_fixture.pl --carpalways -v "${@}"
 fi
 
 # load empty fixture and run any missing patches

@@ -7,7 +7,6 @@ services:
       PGPASSWORD: postgres
       SGN_TEST_SERVER: http://test_breedbase:3010
       SGN_REMOTE_SERVER_ADDR: selenium
-      TEST_DETAILS: t/unit_mech/AJAX/BrAPI_v2.t t/unit_mech/BrAPI_v1.t
     depends_on:
       breedbase_db:
         condition: service_healthy
@@ -17,7 +16,7 @@ services:
       - ./repos:/home/production/cxgn
       # repos/sgn/sgn_test.conf assumes /home/vagrant
       - ./repos:/home/vagrant/cxgn
-      - ./entrypoint.sh:/entrypoint.sh
+    command: ["t/unit", "t/unit_fixture", "t/unit_mech", "t/selenium2"]
     networks:
       - test-breedbase
 
