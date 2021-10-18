@@ -115,7 +115,7 @@ COPY tools/gcta/gcta64  /usr/local/bin/
 COPY tools/quicktree /usr/local/bin/
 COPY tools/sreformat /usr/local/bin/
 
-COPY repos/sgn/js/install_node.sh /
+COPY cxgn/sgn/js/install_node.sh /
 RUN bash /install_node.sh
 
 COPY slurm.conf /etc/slurm-llnl/slurm.conf
@@ -130,7 +130,7 @@ RUN chmod +x /entrypoint.sh
 # copy code repos.
 # This also adds the Mason website skins
 #
-ADD repos /home/production/cxgn
+ADD cxgn /home/production/cxgn
 
 WORKDIR /home/production/cxgn/sgn
 
