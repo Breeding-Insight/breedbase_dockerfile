@@ -4,6 +4,7 @@
 [submodule "repos/sgn"]
 	path = cxgn/sgn
 	url = https://github.com/Breeding-Insight/sgn.git
+	branch = master
 [submodule "repos/Phenome"]
 	path = cxgn/Phenome
 	url = https://github.com/solgenomics/Phenome.git
