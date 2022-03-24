@@ -3,8 +3,6 @@ rules:
   - base: master
     upstream: solgenomics:master
     mergeMethod: merge
-    reviewers:
-      - Breeding-Insight/dev-team
-    conflictReviewers:
-      - Breeding-Insight/dev-team
+    assignees:
+      - timparsons
 label: "upstream-merge"
