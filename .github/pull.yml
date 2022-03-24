@@ -1,6 +1,6 @@
 version: "1"
 rules:
-  - base: upstream-merge
+  - base: master
     upstream: solgenomics:master
     mergeMethod: merge
     reviewers:
