@@ -1,0 +1,8 @@
+version: "1"
+rules:
+  - base: master
+    upstream: solgenomics:master
+    mergeMethod: merge
+    reviewers:
+      - Breeding-Insight/dev-team
+label: "upstream-pull"
