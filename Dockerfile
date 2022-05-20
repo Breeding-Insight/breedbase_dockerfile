@@ -133,15 +133,14 @@ ADD cxgn /home/production/cxgn
 #
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY starmachine.conf /etc/starmachine/
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 COPY sgn_local.conf /home/production/cxgn/sgn/sgn_local.conf
 #COPY cxgn/sgn/js/install_node.sh /
 #RUN bash /install_node.sh
 
 # npm install needs a non-root user (new in latest version)
 #
-RUN adduser -u 1250 production && chown -R production /home/production
+RUN groupadd -g 1250 production && useradd -l -u 1250 -g production production
+RUN chown -R production /home/production
 
 WORKDIR /home/production/cxgn/sgn
 
@@ -156,6 +155,9 @@ ENV R_LIBS_USER=/home/production/cxgn/R_libs
 #RUN rm /home/production/cxgn/sgn/documents
 
 RUN ln -s /home/production/cxgn/starmachine/bin/starmachine_init.d /etc/init.d/sgn
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ARG CREATED
 ARG REVISION

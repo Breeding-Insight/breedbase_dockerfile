@@ -14,14 +14,6 @@ fi
 
 umask 002
 
-# load empty fixture and run any missing patches
-
-if [ $(psql -h breedbase_db -U postgres -Atc 'select count(distinct table_schema) from information_schema.tables;') == "2" ]; then
-    psql -c "CREATE USER web_usr PASSWORD 'postgres';"
-    psql -f t/data/fixture/empty_fixture.sql
-    ( cd db && ./run_all_patches.pl -u ${PGUSER} -p "${PGPASSWORD}" -h ${PGHOST} -d ${PGDATABASE} -e janedoe )
-fi
-
 # create necessary dirs/permissions if we have a docker volume dir
 # at /home/production/volume
 
@@ -31,14 +23,14 @@ then
     then
         mkdir /home/production/volume/archive
         chown www-data /home/production/volume/archive
-	chmod 770 /home/production/volume/archive
+	   chmod 770 /home/production/volume/archive
     fi
 
     if [[ ! -e /home/production/volume/logs ]]
     then
         mkdir /home/production/volume/logs
         chown www-data /home/production/volume/logs
-	chmod 770 /home/production/volume/logs
+	   chmod 770 /home/production/volume/logs
     fi
 
     if [[ ! -e /home/production/volume/blast ]]
@@ -49,36 +41,36 @@ then
     if [[ ! -e /home/production/volume/public ]]
     then
         mkdir /home/production/volume/public
-	chown www-data /home/production/volume/public
-	chmod 770 /home/production/volume/public
+	   chown www-data /home/production/volume/public
+	   chmod 770 /home/production/volume/public
     fi
 
     if [[ ! -e /home/production/volume/public/images ]]
     then
         mkdir /home/production/volume/public/images
         chown www-data /home/production/volume/public/images
-	chmod 770 /home/production/volume/images
+	   chmod 770 /home/production/volume/public/images
     fi
 
     if [[ ! -e /home/production/volume/tmp ]]
     then
         mkdir /home/production/volume/tmp
         chown www-data /home/production/volume/tmp
-	chmod 770 /home/production/volume/tmp
+	   chmod 770 /home/production/volume/tmp
     fi
 
     if [[ ! -e /home/production/volume/cache ]]
     then
         mkdir /home/production/volume/cache
         chown www-data /home/production/volume/cache
-	chmod 770 /home/production/volume/cache
+	   chmod 770 /home/production/volume/cache
     fi
 
     if [[ ! -e /home/production/volume/cluster ]]
     then
         mkdir /home/production/volume/cluster
         chown www-data /home/production/volume/cluster
-	chmod 770 /home/production/volume/cluster
+	   chmod 770 /home/production/volume/cluster
     fi
     
     if [[ ! -e /home/production/volume/pgdata ]]
@@ -90,6 +82,14 @@ else
     echo "/home/production/volume does not exist... not creating dirs";
 fi
 
+
+# load empty fixture and run any missing patches
+
+# if [ $(psql -h breedbase_db -U postgres -Atc 'select count(distinct table_schema) from information_schema.tables;') == "2" ]; then
+#     psql -c "CREATE USER web_usr PASSWORD 'postgres';"
+#     psql -f t/data/fixture/empty_fixture.sql
+#     ( cd db && ./run_all_patches.pl -u ${PGUSER} -p "${PGPASSWORD}" -h ${PGHOST} -d ${PGDATABASE} -e janedoe )
+# fi
 
 if [ "$MODE" == "DEVELOPMENT" ]; then
         /home/production/cxgn/sgn/bin/sgn_server.pl --fork -r -p 8080
