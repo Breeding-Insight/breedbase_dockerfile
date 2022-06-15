@@ -39,3 +39,4 @@ inc/
 
 repos/
 .idea
+.DS_Store
