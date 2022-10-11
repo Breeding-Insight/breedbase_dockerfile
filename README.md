@@ -51,6 +51,8 @@ Follow the instructions on https://www.digitalocean.com/community/tutorials/how-
     PGPASSWORD=postgres
     PGUSER=postgres
     ```
+    
+    Use ``` source .env ``` to read the environment variables.
 
 3. Deploy with docker-compose
 
@@ -59,7 +61,7 @@ Follow the instructions on https://www.digitalocean.com/community/tutorials/how-
     ```
     docker-compose -f docker-compose.yml -f production.yml up -d
     ```
-    Then follow [the instructions below](#access-and-configure) to access and configure your new breedbase deployment!
+    Then follow [the instructions below](#access-and-configure) to access and configure your new breedbase deployment. You might also have to run the db patches to have an up to date database structure. See [Updating the database schema from the docker](#updating-the-database-schema-from-the-docker).
 
 ### Using `docker swarm`
 Docker Swarm allows you to define a service, as well as to allow you to configure auto scaling and clustering of a service.
@@ -202,7 +204,7 @@ The db patches can be run individually by changing into the specific directory, 
 
 The database can be updated to the current level in one step (recommended method) by running the ```run_all_patches.pl``` script in the ```db/``` directory, which calls all the db patches individually. If you are using the standard docker-compose setup, the command line is (options in square brackets are optional):
 ```
-    cd cxgn/sgn/db
+    cd db;
     perl run_all_patches.pl -u postgres -p postgres -h breedbase_db -d
     breedbase -e admin [-s <startfrom>] [--test]
 ```
