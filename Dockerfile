@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:bullseye
 
 ENV CPANMIRROR=http://cpan.cpantesters.org
 # based on the vagrant provision.sh script by Nick Morales <nm529@cornell.edu>
@@ -28,14 +28,6 @@ RUN mkdir /var/log/sgn
 
 WORKDIR /home/production/cxgn
 
-RUN apt-get update && apt-get install sudo lsb-release -y
-
-# add cran backports repo and required deps
-#
-RUN echo "deb http://lib.stat.cmu.edu/R/CRAN/bin/linux/debian stretch-cran35/" >> /etc/apt/sources.list
-
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list
-
 # install system dependencies
 #
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -44,15 +36,27 @@ RUN apt-get upgrade -y
 RUN apt-get install build-essential pkg-config apt-utils gnupg2 curl wget -y
 # key for cran-backports (not working though)
 #
-RUN bash -c "apt-key adv --keyserver keyserver.ubuntu.com --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF' 1>/key.out   2> /key.err"
+#
+# old cran key
+
+# for R cran-40
+RUN bash -c "apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' 1>/key.out 2> /key.err"
+
+
+# add cran backports repo and required deps
+#
+RUN echo "deb http://lib.stat.cmu.edu/R/CRAN/bin/linux/debian bullseye-cran40/" >> /etc/apt/sources.list
+
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list
 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc |  apt-key add -
 
 RUN apt-get update --fix-missing -y
-#RUN apt-get update -y
+#RUN apt-get update -y;
 
 RUN apt-get install -y aptitude
-RUN aptitude install -y libterm-readline-zoid-perl nginx starman emacs gedit vim less sudo htop git dkms linux-headers-amd64 perl-doc ack-grep make xutils-dev nfs-common lynx xvfb ncbi-blast+ libmunge-dev libmunge2 munge slurm-wlm slurmctld slurmd libslurm-perl libssl-dev graphviz lsof imagemagick mrbayes muscle bowtie bowtie2 blast2 postfix mailutils libcupsimage2 postgresql-client-12 libglib2.0-dev libglib2.0-bin screen apt-transport-https libgdal-dev libproj-dev libudunits2-dev locales locales-all rsyslog cron
+
+RUN aptitude install -y npm libterm-readline-zoid-perl nginx starman emacs gedit vim less sudo htop git dkms linux-headers-5.10.0-16-amd64 perl-doc ack make xutils-dev nfs-common lynx xvfb ncbi-blast+ libmunge-dev libmunge2 munge slurm-wlm slurmctld slurmd libslurm-perl libssl-dev graphviz lsof imagemagick mrbayes muscle bowtie bowtie2 postfix mailutils libcupsimage2 postgresql-client-12 libglib2.0-dev libglib2.0-bin screen apt-transport-https libgdal-dev libproj-dev libudunits2-dev locales locales-all rsyslog cron libnlopt0
 
 # Set the locale correclty to UTF-8
 RUN locale-gen en_US.UTF-8
@@ -60,11 +64,14 @@ ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
 
 RUN curl -L https://cpanmin.us | perl - --sudo App::cpanminus
 
+RUN rm /etc/munge/munge.key
+
 RUN chmod 777 /var/spool/ \
     && mkdir /var/spool/slurmstate \
     && chown slurm:slurm /var/spool/slurmstate/ \
-    && /usr/sbin/create-munge-key \
-    && ln -s /var/lib/slurm-llnl /var/lib/slurm
+    && /usr/sbin/mungekey \
+    && ln -s /var/lib/slurm-llnl /var/lib/slurm \
+    && mkdir -p /var/log/slurm
 
 RUN apt-get install r-base r-base-dev libopenblas-base -y --allow-unauthenticated
 
@@ -86,7 +93,7 @@ RUN apt-get install libcairo2-dev -y
 
 # GD Perl module needs this:
 #
-RUN apt-get install libgd2-xpm-dev -y
+RUN apt-get install libgd-dev -y
 
 # postgres driver DBD::Pg needs this:
 #
@@ -96,17 +103,17 @@ RUN apt-get install libpq-dev -y
 #
 RUN apt-get install libmoosex-runnable-perl -y
 
-RUN apt-get install libhash-case-perl -y
-
-RUN apt-get install libgdbm3 libgdm-dev -y
+RUN apt-get install libgdbm6 libgdm-dev -y
 RUN apt-get install nodejs -y
 
-RUN cpanm Selenium::Remote::Driver@1.44 --force
+RUN cpanm Selenium::Remote::Driver@1.44
 
 #INSTALL OPENCV IMAGING LIBRARY
-RUN apt-get install -y python3-dev python-pip python3-pip python-numpy libgtk2.0-dev libgtk-3-0 libgtk-3-dev libavcodec-dev libavformat-dev libswscale-dev libhdf5-serial-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libxvidcore-dev libatlas-base-dev gfortran libgdal-dev exiftool libzbar-dev cmake
+
+RUN apt-get install -y python3-dev  python3-pip python3-numpy libgtk2.0-dev libgtk-3-0 libgtk-3-dev libavcodec-dev libavformat-dev libswscale-dev libhdf5-serial-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libxvidcore-dev libatlas-base-dev gfortran libgdal-dev exiftool libzbar-dev cmake
+
 RUN pip3 install --upgrade pip
-RUN pip3 install imutils numpy matplotlib pillow statistics PyExifTool pytz pysolar scikit-image packaging pyzbar pandas opencv-python \
+RUN pip3 install grpcio==1.40.0 imutils numpy matplotlib pillow statistics PyExifTool pytz pysolar scikit-image packaging pyzbar pandas opencv-python \
     && pip3 install -U keras-tuner
 
 # copy some tools that don't have a Debian package
@@ -115,26 +122,29 @@ COPY tools/gcta/gcta64  /usr/local/bin/
 COPY tools/quicktree /usr/local/bin/
 COPY tools/sreformat /usr/local/bin/
 
-COPY cxgn/sgn/js/install_node.sh /
-RUN bash /install_node.sh
 
-COPY slurm.conf /etc/slurm-llnl/slurm.conf
-
-COPY sgn_local.conf /home/production/cxgn/sgn/sgn_local.conf
-COPY starmachine.conf /etc/starmachine/
-COPY slurm.conf /etc/slurm-llnl/slurm.conf
-RUN true
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
 # copy code repos.
 # This also adds the Mason website skins
 #
 ADD cxgn /home/production/cxgn
 
+# move this here so it is not clobbered by the cxgn move
+#
+COPY slurm.conf /etc/slurm/slurm.conf
+COPY starmachine.conf /etc/starmachine/
+COPY sgn_local.conf /home/production/cxgn/sgn/sgn_local.conf
+#COPY cxgn/sgn/js/install_node.sh /
+#RUN bash /install_node.sh
+
+# npm install needs a non-root user (new in latest version)
+#
+RUN groupadd -g 1250 production && useradd -l -u 1250 -g production production
+RUN chown -R production /home/production
+
 WORKDIR /home/production/cxgn/sgn
 
-ENV PERL5LIB=/home/production/cxgn/local-lib/:/home/production/cxgn/local-lib/lib/perl5:/home/production/cxgn/sgn/lib:/home/production/cxgn/cxgn-corelibs/lib:/home/production/cxgn/Phenome/lib:/home/production/cxgn/Cview/lib:/home/production/cxgn/ITAG/lib:/home/production/cxgn/biosource/lib:/home/production/cxgn/tomato_genome/lib:/home/production/cxgn/Chado/chado/lib:/home/production/cxgn/Bio-Chado-Schema/lib:.
+ENV PERL5LIB=/home/production/cxgn/Bio-Chado-Schema/lib:/home/production/cxgn/local-lib/:/home/production/cxgn/local-lib/lib/perl5:/home/production/cxgn/sgn/lib:/home/production/cxgn/cxgn-corelibs/lib:/home/production/cxgn/Phenome/lib:/home/production/cxgn/Cview/lib:/home/production/cxgn/ITAG/lib:/home/production/cxgn/biosource/lib:/home/production/cxgn/tomato_genome/lib:/home/production/cxgn/Chado/chado/lib:.
 
 ENV HOME=/home/production
 ENV PGPASSFILE=/home/production/.pgpass
@@ -145,6 +155,9 @@ ENV R_LIBS_USER=/home/production/cxgn/R_libs
 #RUN rm /home/production/cxgn/sgn/documents
 
 RUN ln -s /home/production/cxgn/starmachine/bin/starmachine_init.d /etc/init.d/sgn
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ARG CREATED
 ARG REVISION

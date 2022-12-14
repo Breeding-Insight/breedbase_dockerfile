@@ -18,6 +18,10 @@ Access [breedbase.org](https://breedbase.org/) to explore a default instance of 
 [Testing](#testing)<br>
 [Miscellaneous](#miscellaneous)<br>
 
+## Install Docker
+
+Follow the instructions on https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-debian-10 to install the docker executable.
+(Choose the correct version of your OS from the pull down menu on that site)
 
 ## Deploy in Production
 
@@ -99,7 +103,8 @@ You need to write an `sgn_local.conf` file specific to your service. A [template
     git clone --recursive https://github.com/solgenomics/breedbase_dockerfile
     cd breedbase_dockerfile
     ```
-    This will clone all the git repos that are needed for breedbase into a subdirectory called `cxgn/`.
+   
+   This will clone all the git repos that are needed for breedbase into a subdirectory called `cxgn/`.
     This directory will be mounted onto the devel container during the compose step, but will still be accessible from the host for development work.
 
 3. Deploy with docker-compose, then follow [the instructions below](#access-and-configure) to access and configure your new breedbase deployment!
