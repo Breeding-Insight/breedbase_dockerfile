@@ -1,6 +1,9 @@
 services:
   test_breedbase:
-    image: breedbase/breedbase:v0.36
+    build:
+      context: .
+      cache_from:
+        - breedbase/breedbase:v0.54
     environment:
       HOME: /root
       MODE: 'TESTING'
@@ -27,6 +30,14 @@ services:
       test: "curl --silent --head http://localhost:4444 || exit 1"
     networks:
       - test-breedbase
+    volumes:
+      - type: bind
+        source: ./cxgn/sgn/t/data
+        target: /home/production/cxgn/sgn/t/data
+    ports:
+       - 5900:5900
+       - 4444:4444
+
 
   breedbase_db:
     image: postgres:12.7

@@ -107,9 +107,6 @@
 [submodule "cxgn/imagesol"]
 	path = cxgn/imagesol
 	url = https://github.com/solgenomics/imagesol.git
-[submodule "cxgn/Chado"]
-	path = cxgn/Chado
-	url = https://github.com/GMOD/Chado
 [submodule "cxgn/cxgn/chado_tools"]
 	path = cxgn/chado_tools
 	url = https://github.com/GMOD/chado_tools
@@ -128,3 +125,12 @@
 [submodule "cxgn/QuantGenResources"]
 	path = cxgn/QuantGenResources
 	url = https://github.com/solgenomics/QuantGenResources.git
+[submodule "cxgn/gtsimsrch"]
+	path = cxgn/gtsimsrch
+	url = git@github.com:solgenomics/gtsimsrch
+[submodule "sgn-biotools"]
+	path = sgn-biotools
+	url = git@github.com:solgenomics/sgn-biotools
+[submodule "cxgn/NextGenMap"]
+	path = cxgn/NextGenMap
+	url = https://github.com/Cibiv/NextGenMap.git
