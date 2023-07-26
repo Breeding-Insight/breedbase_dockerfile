@@ -5,7 +5,7 @@ services:
     volumes:
       - webdata:/home/production/volume
     ports:
-      - 7080:8080
+      - ${BREEDBASE_PORT:-7080}:8080
     image: breedinginsight/breedbase:latest
     depends_on:
       - breedbase_db
@@ -17,7 +17,7 @@ services:
     image: postgres:12.7
     container_name: breedbase_db
     ports:
-      - 5431:5432
+      - ${BREEDBASE_DB_PORT:-5431}:5432
     environment:
       POSTGRES_DB: ${PGDATABASE:?}
       POSTGRES_PASSWORD: ${PGPASSWORD:?}
