@@ -20,8 +20,7 @@ Access [breedbase.org](https://breedbase.org/) to explore a default instance of 
 
 ## Install Docker
 
-Follow the instructions on https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-debian-10 to install the docker executable.
-(Choose the correct version of your OS from the pull down menu on that site)
+For installs on Debian, follow the instructions on https://docs.docker.com/engine/install/debian/ to install the docker executable.
 
 ## Deploy in Production
 
@@ -29,7 +28,7 @@ Follow the instructions on https://www.digitalocean.com/community/tutorials/how-
 
 1. Install docker-compose
 
-    Debian/Ubuntu: https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04
+    Debian/Ubuntu: ```apt-get install docker-compose-plugin```
 
     For Mac/Windows: It will be installed as part of installing [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
@@ -51,6 +50,8 @@ Follow the instructions on https://www.digitalocean.com/community/tutorials/how-
     PGPASSWORD=postgres
     PGUSER=postgres
     ```
+    
+    Use ``` source .env ``` to read the environment variables.
 
 3. Deploy with docker-compose
 
@@ -59,7 +60,7 @@ Follow the instructions on https://www.digitalocean.com/community/tutorials/how-
     ```
     docker-compose -f docker-compose.yml -f production.yml up -d
     ```
-    Then follow [the instructions below](#access-and-configure) to access and configure your new breedbase deployment!
+    Then follow [the instructions below](#access-and-configure) to access and configure your new breedbase deployment. You might also have to run the db patches to have an up to date database structure. See [Updating the database schema from the docker](#updating-the-database-schema-from-the-docker).
 
 ### Using `docker swarm`
 Docker Swarm allows you to define a service, as well as to allow you to configure auto scaling and clustering of a service.
@@ -99,8 +100,10 @@ You need to write an `sgn_local.conf` file specific to your service. A [template
 
 2. Clone this repo and set up other requirements on your host
 
+    If you haven't done so already, setup keys with GitHub following the instructions at https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account .
+
     ```bash
-    git clone --recursive https://github.com/solgenomics/breedbase_dockerfile
+    git clone --recursive git@github.com:solgenomics/breedbase_dockerfile
     cd breedbase_dockerfile
     ```
    
@@ -202,7 +205,7 @@ The db patches can be run individually by changing into the specific directory, 
 
 The database can be updated to the current level in one step (recommended method) by running the ```run_all_patches.pl``` script in the ```db/``` directory, which calls all the db patches individually. If you are using the standard docker-compose setup, the command line is (options in square brackets are optional):
 ```
-    cd cxgn/sgn/db
+    cd db;
     perl run_all_patches.pl -u postgres -p postgres -h breedbase_db -d
     breedbase -e admin [-s <startfrom>] [--test]
 ```
