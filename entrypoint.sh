@@ -83,14 +83,6 @@ else
 fi
 
 
-# load empty fixture and run any missing patches
-
-# if [ $(psql -h breedbase_db -U postgres -Atc 'select count(distinct table_schema) from information_schema.tables;') == "2" ]; then
-#     psql -c "CREATE USER web_usr PASSWORD 'postgres';"
-#     psql -f t/data/fixture/empty_fixture.sql
-#     ( cd db && ./run_all_patches.pl -u ${PGUSER} -p "${PGPASSWORD}" -h ${PGHOST} -d ${PGDATABASE} -e janedoe )
-# fi
-
 if [ "$MODE" == "DEVELOPMENT" ]; then
         /home/production/cxgn/sgn/bin/sgn_server.pl --fork -r -p 8080
 else

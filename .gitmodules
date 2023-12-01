@@ -26,9 +26,6 @@
 [submodule "cxgn/sgn-devtools"]
 	path = cxgn/sgn-devtools
 	url = https://github.com/solgenomics/sgn-devtools.git
-[submodule "cxgn/solGS"]
-	path = cxgn/solGS
-	url = https://github.com/solgenomics/solGS.git
 [submodule "cxgn/starmachine"]
 	path = cxgn/starmachine
 	url = https://github.com/solgenomics/starmachine.git
@@ -40,7 +37,7 @@
 	url = https://github.com/solgenomics/perl-local-lib
 [submodule "cxgn/R_libs"]
 	path = cxgn/R_libs
-	url = https://github.com/solgenomics/R_libs
+	url = git@github.com:solgenomics/R_libs
 [submodule "cxgn/cassava"]
 	path = cxgn/cassava
 	url = https://github.com/solgenomics/cassava.git
@@ -80,9 +77,6 @@
 [submodule "cxgn/solgenomics"]
 	path = cxgn/solgenomics
 	url = https://github.com/solgenomics/solgenomics.git
-[submodule "cxgn/panzeabase"]
-	path = cxgn/panzeabase
-	url = https://github.com/solgenomics/panzeabase.git
 [submodule "cxgn/varitome"]
 	path = cxgn/varitome
 	url = https://github.com/solgenomics/varitome.git
@@ -95,12 +89,6 @@
 [submodule "cxgn/vitisbase"]
 	path = cxgn/vitisbase
 	url = https://github.com/solgenomics/vitisbase.git
-[submodule "cxgn/panandbase"]
-	path = cxgn/panandbase
-	url = https://github.com/solgenomics/panandbase.git
-[submodule "cxgn/triticum"]
-	path = cxgn/triticum
-	url = https://github.com/solgenomics/triticum.git
 [submodule "cxgn/gorelabbbase"]
 	path = cxgn/gorelabbbase
 	url = https://github.com/solgenomics/gorelabbase.git
@@ -119,9 +107,6 @@
 [submodule "cxgn/Bio-Chado-Schema"]
 	path = cxgn/Bio-Chado-Schema
 	url = https://github.com/GMOD/Bio-Chado-Schema
-[submodule "cxgn/tassel-5-standalone"]
-	path = cxgn/tassel-5-standalone
-	url = https://bitbucket.com/tasseladmin/tassel-5-standalone
 [submodule "cxgn/QuantGenResources"]
 	path = cxgn/QuantGenResources
 	url = https://github.com/solgenomics/QuantGenResources.git
@@ -131,6 +116,5 @@
 [submodule "sgn-biotools"]
 	path = sgn-biotools
 	url = https://github.com/solgenomics/sgn-biotools.git
-[submodule "cxgn/NextGenMap"]
-	path = cxgn/NextGenMap
-	url = https://github.com/Cibiv/NextGenMap.git
+
+

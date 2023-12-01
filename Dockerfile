@@ -121,6 +121,11 @@ COPY slurm.conf /etc/slurm/slurm.conf
 COPY starmachine.conf /etc/starmachine/
 COPY sgn_local.conf /home/production/cxgn/sgn/sgn_local.conf
 
+# compile the simsearch and contigalign tools
+#
+RUN cd /home/production/cxgn/gtsimsrch/src; make; cd -;
+RUN cd /home/production/cxgn/sgn/programs/; make; cd -;
+ 
 # npm install needs a non-root user (new in latest version)
 #
 RUN groupadd -g 1250 production && useradd -l -u 1250 -g production production
